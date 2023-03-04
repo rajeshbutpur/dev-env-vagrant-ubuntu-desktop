@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
   	sudo apt-get install -y software-properties-common
   	sudo apt-get update -y
   	sudo apt-get install -y python-setuptools python-dev build-essential
-  	sudo apt-get install -y python-pip
+  	sudo apt-get install -y python3-pip
   	sudo pip install ansible
 
     DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" dist-upgrade -y

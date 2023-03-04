@@ -15,7 +15,7 @@ function install_ansible {
   sudo apt-get install -y software-properties-common
   sudo apt-get update -y
   sudo apt-get install -y python-setuptools python-dev build-essential
-  sudo apt-get install -y python3-pip
+  sudo apt-get install -y python-pip
   sudo pip install ansible
 }
 
