@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
       if (_retry)
           exec "vagrant " + ARGV.join(' ')
       end
-  config.vm.box = "peru/ubuntu-18.04-desktop-amd64"
-  config.vm.box_version = "20181210.01"
+  config.vm.box = "peru/ubuntu-20.04-desktop-amd64"
+  config.vm.box_version = "20230301.01"
   config.vm.box_check_update = true
   config.disksize.size = "32GB"
   config.vm.provider "virtualbox" do |v|
