@@ -5,7 +5,7 @@
     state: latest
 - name: ensure pip installed
   package:
-    name: python-pip
+    name: python3-pip
     state: latest
 - name: ensure pip is up to date
   pip:
