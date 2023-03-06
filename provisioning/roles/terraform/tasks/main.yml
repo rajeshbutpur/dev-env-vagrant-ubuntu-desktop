@@ -1,0 +1,22 @@
+---
+- name: Download Terraform zip file
+    get_url:
+      url: "{{ terraform_url }}"
+      dest: "/tmp/{{ terraform_zip_file }}"
+
+- name: Unzip Terraform
+    unarchive:
+      src: "/tmp/{{ terraform_zip_file }}"
+      dest: "{{ terraform_install_dir }}"
+      remote_src: yes
+      group: root
+      mode: 0755
+      owner: root
+
+- name: Create symbolic link for Terraform executable
+    file:
+      src: "{{ terraform_bin_path }}"
+      path: "{{ local_software_directory }}/terraform"
+      state: link
+      group: root
+      owner: root

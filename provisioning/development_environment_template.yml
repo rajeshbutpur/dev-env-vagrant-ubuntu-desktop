@@ -12,3 +12,4 @@
     - java_project_builder
     - intellij_community
     - docker_compose
+    - terraform
