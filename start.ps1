@@ -1,4 +1,4 @@
-param([switch]$SkipRepositoryUpdate=$FALSE,[switch]$SkipVirtualMachine=$FALSE,[switch]$SkipVirtualMachineUpdate=$FALSE,[String]$DevelopmentEnvironmentPath)
+param([switch]$SkipRepositoryUpdate=$TRUE,[switch]$SkipVirtualMachine=$FALSE,[switch]$SkipVirtualMachineUpdate=$FALSE,[String]$DevelopmentEnvironmentPath)
 
 
 

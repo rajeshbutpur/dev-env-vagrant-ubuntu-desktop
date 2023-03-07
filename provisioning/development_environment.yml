@@ -11,8 +11,10 @@
     - { role: docker, docker_user: "{{ desktop_user }}" }
     - java_project_builder
     - intellij_community
+#    - pycharm_community
     - docker_compose
     - terraform
+#    - jetbrains_toolbox
 - hosts: all
   roles:
     - { role: loopback_file_system, index: 0, mount_point: "{{ desktop_user_home }}/dev", initial_kilobytes: 1024000 }

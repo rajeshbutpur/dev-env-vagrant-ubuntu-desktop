@@ -1,4 +1,12 @@
 ---
+- name: ensure terraform directory exists
+  file:
+    group: root
+    mode: 0755
+    owner: root
+    path: "{{ terraform_install_dir }}"
+    state: directory
+
 - name: Download Terraform zip file
   get_url:
     url: "{{ terraform_url }}"

@@ -11,28 +11,28 @@
   package:
     name: jq
     state: latest
-- name: ensure google chrome apt key installed
-  apt_key:
-    url: https://dl.google.com/linux/linux_signing_key.pub
-    state: present
-- name: ensure google chrome apt repository installed
-  apt_repository:
-    filename: google-chrome
-    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-    state: present
-    update_cache: yes
-- name: ensure google chrome installed
-  package:
-    name: google-chrome-stable
-    state: latest
-- name: ensure google launcher icon configured
-  copy:
-    dest: /usr/share/applications/google-chrome.desktop
-    force: yes
-    group: root
-    mode: 0644
-    owner: root
-    src: google-chrome.desktop
+#- name: ensure google chrome apt key installed
+#  apt_key:
+#    url: https://dl.google.com/linux/linux_signing_key.pub
+#    state: present
+#- name: ensure google chrome apt repository installed
+#  apt_repository:
+#    filename: google-chrome
+#    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+#    state: present
+#    update_cache: yes
+#- name: ensure google chrome installed
+#  package:
+#    name: google-chrome-stable
+#    state: latest
+#- name: ensure google launcher icon configured
+#  copy:
+#    dest: /usr/share/applications/google-chrome.desktop
+#    force: yes
+#    group: root
+#    mode: 0644
+#    owner: root
+#    src: google-chrome.desktop
 - name: ensure system locale settings configured
   lineinfile:
     create: yes

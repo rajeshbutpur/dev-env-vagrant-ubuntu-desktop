@@ -8,6 +8,7 @@
     owner: root
     remote_src: yes
     src: https://download.jetbrains.com/idea/ideaIC-{{intellij_idea_major_version}}.{{intellij_idea_minor_version}}{{'.' ~ intellij_idea_patch_version if intellij_idea_patch_version != None else ''}}.tar.gz
+
 - name: ensure intellij idea launcher icon configured
   template:
     dest: /usr/share/applications/jetbrains-idea.desktop
@@ -16,12 +17,14 @@
     mode: 0644
     owner: root
     src: idea.desktop
+
 - name: ensure intellij idea configured
   synchronize:
     archive: yes
     dest: "{{intellij_idea_user_directory}}"
     src: config
   become_user: "{{ desktop_user }}"
+
 - name: ensure intellij idea plugins directory exists
   file:
     group: "{{ desktop_user }}"
@@ -29,16 +32,19 @@
     owner: "{{ desktop_user }}"
     path: "{{intellij_idea_user_directory}}/config/plugins"
     state: directory
+
 - name: ensure temporary directory exists for downloading intellij idea plugins
   command: 'mktemp -d'
   register: idea_plugin_download_directory
   changed_when: False
+
 - name: ensure temporary directory for downloading intellij idea plugins is owned by desktop user
   file:
     group: "{{ desktop_user }}"
     path: "{{ idea_plugin_download_directory.stdout }}"
     owner: "{{ desktop_user }}"
   changed_when: False
+
 - name: download missing intellij idea plugins
   unarchive:
     creates: "{{intellij_idea_user_directory}}/config/plugins/{{ item.name }}-{{ item.updateId }}"
@@ -52,9 +58,12 @@
   with_items: "{{ intellij_idea_plugins }}"
 - set_fact:
     pending_idea_plugins: "{{ idea_plugin_download.results | reject('skipped') | map(attribute='item') | list }}"
+
 - name: ensure old versions of intellij idea plugins are removed
   command: "find '{{intellij_idea_user_directory}}/config/plugins' -maxdepth 1 -name '{{ item.name }}-*' -exec rm -r {} \\;"
   with_items: "{{ pending_idea_plugins }}"
+  when: "'{{intellij_idea_user_directory}}/config/plugins/{{ item.name }}' is exists"
+
 - name: ensure intellij idea plugins are installed
   synchronize:
     dest: "{{intellij_idea_user_directory}}/config/plugins/{{ item.name }}-{{ item.updateId }}"

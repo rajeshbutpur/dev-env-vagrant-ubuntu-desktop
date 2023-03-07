@@ -1,0 +1,58 @@
+---
+    - name: Create jetbrains-toolbox install directory
+      file:
+        path: "{{ jetbrains_toolbox_install_dir }}"
+        state: directory
+        mode: "0755"
+      when: not (jetbrains_toolbox_install_dir is none)
+
+    - name: Download jetbrains-toolbox
+      get_url:
+        url: "{{ jetbrains_toolbox_download_url }}"
+        dest: "/tmp/jetbrains-toolbox-{{ jetbrains_toolbox_version }}.tar.gz"
+        mode: "0644"
+      when: not (jetbrains_toolbox_download_url is none)
+
+    - name: Extract jetbrains-toolbox
+      unarchive:
+        src: "/tmp/jetbrains-toolbox-{{ jetbrains_toolbox_version }}.tar.gz"
+        dest: "{{ jetbrains_toolbox_install_dir }}"
+        extra_opts: "--strip-components=1"
+        owner: root
+        group: root
+        creates: "{{ jetbrains_toolbox_bin }}"
+      when: not (jetbrains_toolbox_download_url is none)
+
+    - name: Create symbolic link for jetbrains toolbox executable
+      file:
+        src: "{{ jetbrains_toolbox_bin }}"
+        path: "{{ local_software_directory }}/jetbrains-toolbox"
+        state: link
+        group: root
+        owner: root
+
+    - name: Run jetbrains-toolbox
+      command: "{{ jetbrains_toolbox_bin }}"
+
+# Install PyCharm and IntelliJ IDEA using JetBrains Toolbox
+    - name: Install PyCharm Community
+      command: "{{ jetbrains_toolbox_install_dir }}/jetbrains-toolbox \
+              --wait \
+              --tool pycharm-ce \
+              --action install \
+              --directory {{ pycharm_install_dir }}"
+      environment:
+        DISPLAY: ":0"
+      register: pycharm_install
+      changed_when: pycharm_install.rc == 0
+
+    - name: Install IntelliJ IDEA Community
+      command: "{{ jetbrains_toolbox_install_dir }}/jetbrains-toolbox \
+              --wait \
+              --tool intellij-idea-ce \
+              --action install \
+              --directory {{ idea_install_dir }}"
+      environment:
+        DISPLAY: ":0"
+      register: idea_install
+      changed_when: idea_install.rc == 0
