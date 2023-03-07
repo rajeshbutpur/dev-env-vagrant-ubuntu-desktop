@@ -4,13 +4,13 @@ A turn key Vagrant / Virtualbox environment to run Ubuntu 18.04 on Windows boxes
 This VM runs with Vagrant, ansible and Virtualbox. It uses Vagrant to spin up a Ubuntu box in Virtualbox and auto-provisions it with ansible roles. These roles contain the following packages:
 
 - Docker and docker-compose
-- JetBrains ToolBox - Intellij IDEA and PyCharm
+- JetBrains ToolBox - Intellij IDEA and PyCharm (manual install)
 - Java SDK
-- Chrome and Firefox browsers
-- Chrome Driver for selenium
-- NodeJS
+- Chrome and Firefox browsers - (to be removed)
+- Chrome Driver for selenium - (to be remove)
+- NodeJS - (remove)
 - Python
-- Fabric automation framework
+- Fabric automation framework - (to be remove)
 - Terraform
 - Ansible
 - AWS CLI
