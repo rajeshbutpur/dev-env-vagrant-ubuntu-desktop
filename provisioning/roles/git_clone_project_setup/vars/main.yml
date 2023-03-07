@@ -1,0 +1,6 @@
+---
+dev_project_dir: "/home/{{ desktop_user }}/dev"
+git_access_private_key: "/home/{{desktop_user}}/.ssh/id_rsa"
+git_repos:
+  - { project_name: "<project_name>", repo_type: "private", git_url: "git@github.com:<username>/<project_name>.git", project_type: "python", ssh_key: "{{ git_access_private_key }}"  }
+  - { project_name: "<project_name>", repo_type: "public", git_url: "https://github.com/<username>/<project_name>", project_type: "generic" }

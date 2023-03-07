@@ -1,0 +1,64 @@
+---
+    - name: Install python3-venv package
+      become: true
+      apt:
+        name: python3-venv
+        state: present
+
+    - name: Check if repo directory exists
+      stat:
+        path: "/{{ dev_project_dir }}/{{ item.project_name }}"
+      register: repo_dir
+      with_items: "{{ git_repos }}"
+      become: true
+      become_user: "{{ desktop_user }}"
+
+    - name: Clone private git repos
+      git:
+        repo: "{{ item.git_url }}"
+        dest: "/{{ dev_project_dir }}/{{ item.project_name }}"
+        key_file: "{{ item.ssh_key }}"
+        accept_hostkey: yes
+        version: main
+      become: yes
+      become_user: "{{ desktop_user }}"
+      loop: "{{ git_repos }}"
+      loop_control:
+        index_var: repo_private_index
+      when: item.repo_type == "private" and (not repo_dir.results[repo_private_index]['stat']['exists'])
+
+    - name: Clone public git repos
+      git:
+        repo: "{{ item.git_url }}"
+        dest: "/{{ dev_project_dir }}/{{ item.project_name }}"
+        version: main
+      become: yes
+      become_user: "{{ desktop_user }}"
+      loop: "{{ git_repos }}"
+      loop_control:
+        index_var: repo_public_index
+      when: item.repo_type == "public" and (not repo_dir.results[repo_public_index]['stat']['exists'])
+
+    - name: Create Python virtual environment
+      shell: |
+        cd /{{ dev_project_dir }}/{{ item.project_name }}
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+      become: yes
+      become_user: "{{ desktop_user }}"
+      loop: "{{ git_repos }}"
+      when: item.project_type == "python"
+
+#    - name: Edit configuration
+#      copy:
+#        dest: "/{{ dev_project_dir }}/{{ item.project_name }}/.env"
+#        content: |
+#          PORT=8002
+#          PYTHON_INTERPRETER=/{{ dev_project_dir }}/{{ item.project_name }}/venv/bin/python
+#      loop: "{{ git_repos }}"
+#      when: item.project_type == "python"
+
+#    - name: Create IntelliJ IDEA project files
+#      command: /opt/idea-IC-*/bin/idea.sh project_directory=/{{ dev_project_dir }}/{{ item.project_name }}
+#      loop: "{{ git_repos }}"

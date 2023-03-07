@@ -14,6 +14,7 @@
 #    - pycharm_community
     - docker_compose
     - terraform
+    - git_clone_project_setup
 #    - jetbrains_toolbox
 - hosts: all
   roles:
