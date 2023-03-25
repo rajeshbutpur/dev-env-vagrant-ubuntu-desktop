@@ -15,6 +15,11 @@ This VM runs with Vagrant, ansible and Virtualbox. It uses Vagrant to spin up a 
 - Ansible
 - AWS CLI
 
+# TODO
+
+- [ ] .aws/credentials
+- [ ] missing packages
+
 Your files are stored in block devices that reside on the host, i.e. any update, or replacement of the VM will not affect your work. The block devices are in the persistent-data directory.
 
 ## Prerequisites
